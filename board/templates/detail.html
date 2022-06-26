@@ -1,0 +1,17 @@
+<h1>제목</h1>
+{{ board_detail.title }}
+
+<!-- <h2>이름</h2>
+{{ board_detail.name }}
+
+<h2>MBTI</h2>
+{{ board_detail.mbti }} -->
+
+<h2>날짜</h2>
+{{ board_detail.date }}
+
+<h3>본문</h3>
+{{ board_detail.body }}
+
+<a href="{% url 'update' post.id %}">수정</a>
+<a href="{% url 'delete' post.id %}">삭제</a>
