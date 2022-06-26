@@ -1,0 +1,24 @@
+<form action="{% url 'signup' %}" method="POST">
+    {% csrf_token %}
+    <h1>회원 정보 입력</h1>
+    id : <input type="text" name="id"><br/>
+    name : <input type="text" name="name"><br/>
+    password : <input type="text" name="password1"><br/>
+    password 재입력 : <input type="text" name="password2"><br/>
+
+    </br>
+    <h1>MBTI 검사</h1>
+    I<input type="radio" name="IorE" value="I">
+    E<input type="radio" name="IorE" value="E">
+    </br>
+    S<input type="radio" name="SorN" value="S">
+    N<input type="radio" name="SorN" value="N">
+    </br>
+    T<input type="radio" name="TorF" value="T">
+    F<input type="radio" name="TorF" value="F">
+    </br>
+    J<input type="radio" name="JorP" value="J">
+    P<input type="radio" name="JorP" value="P">
+    </br></br>
+    <input type="submit" value="회원가입">
+</form>
