@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from .models import UserManager, User
-
 from account.models import UserManager
+from board import urls
 
 def login(request):
     if(request.method == 'POST'):
@@ -14,16 +14,16 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('/') # MBTI 게시판으로 이동
+            return render(request, 'board_list.html') # MBTI 게시판으로 이동
         else:
-            return redirect('login') # 정보 없으면 다시 로그인으로 돌아감
+            return redirect('/') # 정보 없으면 다시 로그인으로 돌아감
 
     else:
         return render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)
-    return redirect('login') # 로그인 화면으로 돌아가기 
+    return redirect('/') # 로그인 화면으로 돌아가기 
 
 def signup(request):
     if(request.method == 'POST'):
@@ -37,6 +37,6 @@ def signup(request):
             )
             auth.login(request, user)
 
-            return redirect('/') # 게시판으로 이동
+            return render(request, 'board_list.html') # 게시판으로 이동
         return render(request, 'signup.html')
     return render(request, 'signup.html')
