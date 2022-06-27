@@ -2,41 +2,40 @@ from datetime import date
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import Board
 from django.utils import timezone
+from .forms import BoardForm
 
 # Create your views here.
 def boardlist(request):
-    posts=Board.objects.filter().order_by('-date')
+    posts=Board.objects.filter().order_by('-pk')
     return render(request,'board_list.html',{'posts':posts})
 
-def new(request):
-    return render(request,'new.html')
 
-def create(request):
-    if(request.method=="POST"):
-        post=post()
+def formcreate(request):
+    if request.method=='POST':
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            post=Board()
+            post.title=form.cleaned_data['title']
+            post.body=form.cleaned_data['body']
+            post.save()
+            return redirect('boardlist')
+    else:
+        form=BoardForm()
+    return render(request,'form_create.html',{'form':form})    
+
+def detail(request, board_id):
+    board_detail=get_object_or_404(Board,pk=board_id)
+    return render(request, 'detail.html', {'board_detail':board_detail})
+
+
+def update(request, board_id):
+    post=Board.objects.get(pk=board_id)
+    if request.method=='POST':
+        form=BoardForm()
         post.title=request.POST['title']
-        # post.name=request.POST['name']
-        # post.mbti=request.POST['mbti']
         post.body=request.POST['body']
         post.date=timezone.now()
-        post.save()
-    return redirect('boardlist')
-
-def detail(request, post_id):
-    post_detail=get_object_or_404(Board,pk=post_id)
-    return render(request,'detail.html',{'post_detail':post_detail})
-
-def update(request,post_id):
-    post_update=Board.objects.get(pk=post_id)
-    if request.method=="POST":
-        post_update.title=request.POST['title']
-        post_update.body=request.POST['body']
-        post_update.date=timezone.now()
-        post_update.save()
-    return redirect('/detail/'+str(post_id), {'post_update':post_update})
-    
-def delete(request, post_id):
-    post_delete = Board.objects.get(pk=post_id)
-    post_delete.delete()
-    return redirect('boardlist')
-        
+        return redirect('/detail/'+str(post.id),{'post':post})
+    else:
+        post=Board()
+        return render(request,'update.html',{'post':post})
