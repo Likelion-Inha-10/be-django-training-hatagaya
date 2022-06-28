@@ -1,6 +1,7 @@
 from datetime import date
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import Board
+from account.models import User
 from django.utils import timezone
 
 # Create your views here.
@@ -13,27 +14,28 @@ def new(request):
 
 def create(request):
     if(request.method=="POST"):
-        post=post()
+        post=Board()
         post.title=request.POST['title']
-        # post.name=request.POST['name']
-        # post.mbti=request.POST['mbti']
         post.body=request.POST['body']
         post.date=timezone.now()
+        post.User_data = get_object_or_404(User, pk=request.user.id)
         post.save()
     return redirect('boardlist')
 
 def detail(request, post_id):
-    post_detail=get_object_or_404(Board,pk=post_id)
-    return render(request,'detail.html',{'post_detail':post_detail})
+    board_detail=get_object_or_404(Board,pk=post_id)
+    return render(request,'detail.html',{'board_detail':board_detail})
 
 def update(request,post_id):
-    post_update=Board.objects.get(pk=post_id)
-    if request.method=="POST":
-        post_update.title=request.POST['title']
-        post_update.body=request.POST['body']
-        post_update.date=timezone.now()
-        post_update.save()
-    return redirect('/detail/'+str(post_id), {'post_update':post_update})
+    board_detail=Board.objects.get(pk=post_id)
+    if request.method=="POST": 
+        board_detail.title=request.POST['title']
+        board_detail.body=request.POST['body']
+        board_detail.date=timezone.now()
+        board_detail.save()
+        return redirect('detail/'+str(post_id), {'board_detail':board_detail})
+    else:
+        return render(request, "updata.html", {'board_detail':board_detail})
     
 def delete(request, post_id):
     post_delete = Board.objects.get(pk=post_id)
