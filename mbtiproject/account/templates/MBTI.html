@@ -1,0 +1,17 @@
+<form action = "{% url 'result' %}" method = "POST">
+    {% csrf_token %}
+</br>
+<h1>MBTI 검사</h1>
+I<input type="radio" name="IorE" value="I">
+E<input type="radio" name="IorE" value="E">
+</br>
+S<input type="radio" name="SorN" value="S">
+N<input type="radio" name="SorN" value="N">
+</br>
+T<input type="radio" name="TorF" value="T">
+F<input type="radio" name="TorF" value="F">
+</br>
+J<input type="radio" name="JorP" value="J">
+P<input type="radio" name="JorP" value="P">
+</br></br>
+</form>

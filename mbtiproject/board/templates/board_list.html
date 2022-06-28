@@ -1,0 +1,23 @@
+
+<title>board_list</title>
+
+{% if user.is_authenticated %} 
+    안녕하세요,{{ user.name}}님!  <!--로그인 됐으면 이 문자를 띄어주고-->
+    <a href="{% url 'logout' %}">로그아웃</a>
+
+{% else%}
+아직 로그인이 되지 않았어요..<br/>
+    <a href="{% url 'login' %}">로그인</a>
+    <a href="{% url 'signup' %}">회원가입</a>
+{% endif %}
+
+{% if user.is_authenticated%}
+    <a href="{% url 'formcreate' %}"><button>새 글 작성</button></a><br/>     
+{% endif %}
+    
+{% for post in posts %} 
+    <a href='{% url 'detail' board.id %}'><h3>{{post.id}}&nbsp;&nbsp;&nbsp;&nbsp; 제목: {{ post.title }} &nbsp;&nbsp;&nbsp;&nbsp; 작성 날짜 : {{ post.date }}</h3> </a>
+{% endfor %}
+    
+
+

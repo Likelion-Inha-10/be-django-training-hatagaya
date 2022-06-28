@@ -1,0 +1,12 @@
+<br>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <br>
+
+    <input type="submit" value="글 수정하기">
+
+</form>
