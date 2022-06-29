@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block contents %}
+<title>board_list</title>
+</head>
+<body>
+    <a href="{% url 'logout' %}"><button>로그아웃</button></a> 
+    <a href="{% url 'new' %}"><button>새 글 작성</button></a><br/>     
+    {% for post in posts %}
+        <a href="{% url 'detail' post.id %}"><h3>{{post.id}}&nbsp;&nbsp;&nbsp;&nbsp; 제목: {{ post.title }} &nbsp;&nbsp;&nbsp;&nbsp; 작성 날짜 : {{ post.date }}</h3> </a>
+    {% endfor %}
+    
+</body>
+{% endblock contents %}
+

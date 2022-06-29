@@ -1,0 +1,8 @@
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    id : <input type="text" name="id"><br/>
+    password : <input type="text" name="password"><br/>
+    <input type="submit" value="로그인">
+</form>
+
+<a href="{% url 'logout' %}">로그아웃</a>
