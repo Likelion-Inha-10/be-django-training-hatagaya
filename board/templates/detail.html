@@ -1,7 +1,7 @@
 <h1>제목</h1>
 {{ board_detail.title }}
 
-<h2>이름</h2>
+<h2>닉네임</h2>
 {{ board_detail.User_data.name }}
 
 <h2>MBTI</h2>
@@ -14,5 +14,28 @@
 {{ board_detail.body }}
 
 </br></br>
+{% if board_detail.User_data == request.user  %}
 <a href="{% url 'update' board_detail.id %}"><button>수정하기</button></a> 
 <a href="{% url 'delete' board_detail.id %}"><button>삭제하기</button></a> 
+</br>
+{% endif %}
+
+<h4>댓글</h4>
+<form method="POST" action="{% url 'create_comment' board_detail.id %}">
+    {% csrf_token %}
+    <input type="text" name="comment" id="comment">
+    <input type="submit">
+</form>
+
+</br>
+
+{% for comment in board_detail.comment_set.all %}
+
+<p>{{ comment.User_data.id }}[{{ comment.User_data.MBTI }}] :  {{ comment }}</p>
+
+{% if comment.User_data == request.user %}
+<a href="{% url 'delete_comment' board_detail.id comment.id %}"><button>삭제하기</button></a> 
+{% endif %}
+
+<hr>
+{% endfor %}

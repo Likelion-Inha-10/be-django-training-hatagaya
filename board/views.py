@@ -1,8 +1,9 @@
 from datetime import date
 from django.shortcuts import render, redirect,get_object_or_404
-from .models import Board
+from .models import Board, Comment
 from account.models import User
 from django.utils import timezone
+from .forms import CommentForm
 
 # Create your views here.
 def boardlist(request):
@@ -41,4 +42,19 @@ def delete(request, post_id):
     post_delete = Board.objects.get(pk=post_id)
     post_delete.delete()
     return redirect('boardlist')
-        
+
+def create_comment(request, post_id):
+    filled_form = CommentForm(request.POST)
+
+    if filled_form.is_valid():
+        finished_form = filled_form.save(commit=False)
+        finished_form.post = get_object_or_404(Board, pk=post_id)
+        finished_form.User_data = get_object_or_404(User, pk=request.user.id)
+        finished_form.save()
+    
+    return redirect('detail', post_id)
+
+def delete_comment(request, post_id, comment_id):
+    comment_delete = Comment.objects.get(pk=comment_id)
+    comment_delete.delete()
+    return redirect('detail', post_id)
